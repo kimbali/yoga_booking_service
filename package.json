@@ -1,0 +1,17 @@
+{
+  "name": "yoga_booking_service",
+  "version": "1.0.0",
+  "description": "Yoga booking service",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "author": "Yoga Team",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "mongoose": "^8.7.2"
+  }
+}
