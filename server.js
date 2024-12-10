@@ -14,17 +14,19 @@ connectDB();
 const app = express();
 
 // CORS Configuration
-const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [
-  'http://localhost:8100',
-];
-app.use(
-  cors({
-    origin: allowedOrigins,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
-  })
-);
+// const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [
+//   'http://localhost:8100',
+// ];
+// app.use(
+//   cors({
+//     origin: allowedOrigins,
+//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//     allowedHeaders: ['Content-Type', 'Authorization'],
+//     credentials: true,
+//   })
+// );
+
+app.use(cors());
 
 // Middleware to parse JSON
 app.use(express.json());
