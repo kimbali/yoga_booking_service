@@ -99,8 +99,8 @@ exports.updateUserDataByToken = async (req, res) => {
       return res.status(400).json({ message: 'User not found' });
     }
 
-    if (name) user.name = userData.name || user.name;
-    if (phone) user.phone = userData.phone || user.phone;
+    if (userData.name) user.name = userData.name;
+    if (userData.phone) user.phone = userData.phone;
 
     await user.save();
 
