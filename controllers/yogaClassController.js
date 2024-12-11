@@ -88,3 +88,50 @@ exports.deleteClass = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+exports.joinClass = async (req, res) => {
+  try {
+    const classId = req.params.id;
+    const { userId } = req.body;
+
+    const updatedClass = await YogaClass.findByIdAndUpdate(
+      classId,
+      {
+        $addToSet: { registrations: userId }, // Use $addToSet to avoid duplicates
+      },
+      { new: true }
+    );
+
+    if (!updatedClass) {
+      return res.status(404).json({ message: 'Class not found' });
+    }
+
+    res.json(updatedClass);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+exports.leaveClass = async (req, res) => {
+  try {
+    const classId = req.params.id;
+    const { userId } = req.body;
+
+    // Update the class by pulling the userId from the registrations array
+    const updatedClass = await YogaClass.findByIdAndUpdate(
+      classId,
+      {
+        $pull: { registrations: userId }, // Use $pull to remove userId from the registrations array
+      },
+      { new: true }
+    );
+
+    if (!updatedClass) {
+      return res.status(404).json({ message: 'Class not found' });
+    }
+
+    res.json(updatedClass);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
