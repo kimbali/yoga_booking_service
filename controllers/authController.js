@@ -78,7 +78,7 @@ exports.getUserDataByToken = async (req, res) => {
         username: user.username,
         email: user.email,
         phone: user.phone,
-        email: user.email,
+        name: user.name,
       },
     });
 
