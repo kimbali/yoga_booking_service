@@ -77,11 +77,45 @@ exports.getUserDataByToken = async (req, res) => {
         userId: user._id,
         username: user.username,
         email: user.email,
+        phone: user.phone,
+        email: user.email,
       },
     });
 
     return {};
   } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.updateUserDataByToken = async (req, res) => {
+  try {
+    const { token, userData } = req.body;
+
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const user = await User.findById(decoded.userId);
+
+    if (!user) {
+      return res.status(400).json({ message: 'User not found' });
+    }
+
+    if (name) user.name = userData.name || user.name;
+    if (phone) user.phone = userData.phone || user.phone;
+
+    await user.save();
+
+    res.json({
+      message: 'User data updated successfully',
+      user: {
+        userId: user._id,
+        username: user.username,
+        email: user.email,
+        name: user.name,
+        phone: user.phone,
+      },
+    });
+  } catch (error) {
+    console.error('Error updating user data:', error);
     res.status(500).json({ message: error.message });
   }
 };
