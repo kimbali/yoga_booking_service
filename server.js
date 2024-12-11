@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const yogaClassRoutes = require('./routes/yogaClassRoutes');
+const schoolRoutes = require('./routes/schoolRoutes');
 const authRoutes = require('./routes/authRoutes');
 const cors = require('cors');
 
@@ -14,9 +15,8 @@ connectDB();
 const app = express();
 
 // CORS Configuration
-const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [
-  'http://localhost:8100',
-];
+// app.use(cors());
+const allowedOrigins = ['http://localhost:8100'];
 app.use(
   cors({
     origin: ['http://localhost:8100'],
@@ -26,14 +26,13 @@ app.use(
   })
 );
 
-// app.use(cors());
-
 // Middleware to parse JSON
 app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/yoga-classes', yogaClassRoutes);
+app.use('/api/school', schoolRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {

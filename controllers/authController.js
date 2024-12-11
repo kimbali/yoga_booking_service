@@ -1,11 +1,10 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User'); // Make sure to create a User model
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret'; // Store the secret in environment variables
+const User = require('../models/User');
+const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 
 exports.registerUser = async (req, res) => {
   try {
-    console.log('hello');
     const { username, password } = req.body;
 
     // Check if the user already exists

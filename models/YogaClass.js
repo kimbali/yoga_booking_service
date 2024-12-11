@@ -1,16 +1,24 @@
 const mongoose = require('mongoose');
 
 const yogaClassSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  description: { type: String, required: true },
-  duration: { type: Number, required: true }, // en minutos
+  title: { type: String },
+  description: { type: String },
+  date: { type: Date },
+  duration: { type: Number }, // en minutos
+  type: { type: String },
   level: {
-    type: String,
-    enum: ['Beginner', 'Intermediate', 'Advanced'],
+    type: Number,
+    enum: [1, 2, 3, 4, 5],
     required: true,
   },
-  date: { type: Date, required: true },
-  instructor: { type: String, required: true },
+  teacher: { type: String },
+  school: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'School',
+    required: true,
+  },
+  capacity: { type: Number },
+  registrations: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 });
 
 module.exports = mongoose.model('YogaClass', yogaClassSchema);
