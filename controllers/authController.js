@@ -45,7 +45,7 @@ exports.loginUser = async (req, res) => {
 
     // Generate a JWT token
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
-      expiresIn: '1h',
+      expiresIn: '365d',
     });
 
     res.json({
@@ -54,6 +54,33 @@ exports.loginUser = async (req, res) => {
       username: user.username,
       userId: user._id,
     });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Function to get user data by token
+exports.getUserDataByToken = async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const user = await User.findById(decoded.userId);
+
+    if (!user) {
+      return res.status(400).json({ message: 'User not found' });
+    }
+
+    res.json({
+      message: 'Login successful',
+      user: {
+        userId: user._id,
+        username: user.username,
+        email: user.email,
+      },
+    });
+
+    return {};
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
